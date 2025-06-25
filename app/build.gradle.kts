@@ -57,6 +57,8 @@ dependencies {
     implementation(libs.hilt.navigation)
     ksp(libs.hilt.android.compiler)
 
+    // Retrofit
+    implementation(libs.retrofit)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

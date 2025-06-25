@@ -224,7 +224,7 @@ fun ProductItemFull(product: ProductDto) {
             Spacer(Modifier.height(2.dp))
             Text("APPLE", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.Gray)
             Text(product.title, fontWeight = FontWeight.Bold, fontSize = 15.sp)
-            Text(product.subtitle, color = Color.Gray, fontSize = 12.sp)
+            Text(product.store, color = Color.Gray, fontSize = 12.sp)
             Spacer(Modifier.height(2.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Por Apple ", fontSize = 12.sp, color = Color.Gray)
