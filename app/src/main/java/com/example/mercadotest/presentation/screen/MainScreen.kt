@@ -45,11 +45,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mercadotest.R
-import com.example.mercadotest.presentation.viewmodel.Chip
-import com.example.mercadotest.presentation.viewmodel.Product
+import com.example.mercadotest.domain.model.ChipDto
+import com.example.mercadotest.domain.model.ProductDto
 
 @Composable
-fun MainScreen(products: List<Product>) {
+fun MainScreen(products: List<ProductDto>) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -69,10 +69,14 @@ fun TopBarFull() {
             .padding(bottom = 4.dp)
     ) {
 
-        Box(modifier = Modifier.fillMaxWidth().height(30.dp))
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .height(30.dp))
 
         Row(
-            Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.End
         ) {
@@ -95,39 +99,50 @@ fun TopBarFull() {
         }
 
         Row(
-            Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 2.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 2.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {
-            Icon(Icons.Outlined.LocationOn, contentDescription = null, modifier = Modifier.size(18.dp))
+            Icon(
+                Icons.Outlined.LocationOn,
+                contentDescription = null,
+                modifier = Modifier.size(18.dp)
+            )
             Text("Calle Posta 4789", fontSize = 15.sp)
-            Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null, modifier = Modifier.size(20.dp))
+            Icon(
+                Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp)
+            )
         }
     }
 }
 
 @Composable
 fun FilterChipsFull() {
-    LazyRow (
+    LazyRow(
         modifier = Modifier
             .fillMaxWidth()
             .background(White)
             .padding(vertical = 8.dp, horizontal = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(listOf(
-            Chip(R.drawable.race_car,"Llega mañana"),
-            Chip(R.drawable.outline_credit_card_24, "Mejor precio en cuotas"),
-            Chip(0, "Enviado por")
+        items(
+            listOf(
+                ChipDto(R.drawable.race_car, "Llega mañana"),
+                ChipDto(R.drawable.outline_credit_card_24, "Mejor precio en cuotas"),
+                ChipDto(0, "Enviado por")
             )
-        ){
+        ) {
             ChipWithIcon(it)
         }
     }
 }
 
 @Composable
-fun ChipWithIcon(chip: Chip) {
+fun ChipWithIcon(chip: ChipDto) {
     Surface(
         shape = RoundedCornerShape(16.dp),
         color = White,
@@ -137,8 +152,13 @@ fun ChipWithIcon(chip: Chip) {
             Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (chip.icon != 0)
-            Image(painterResource(chip.icon), contentDescription = null, modifier = Modifier.size(16.dp))
+            if (chip.icon != 0) {
+                Image(
+                    painterResource(chip.icon),
+                    contentDescription = null,
+                    modifier = Modifier.size(16.dp)
+                )
+            }
             Spacer(Modifier.width(4.dp))
             Text(chip.text, fontSize = 14.sp)
         }
@@ -146,7 +166,7 @@ fun ChipWithIcon(chip: Chip) {
 }
 
 @Composable
-fun ProductListFull(products: List<Product>) {
+fun ProductListFull(products: List<ProductDto>) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -160,7 +180,7 @@ fun ProductListFull(products: List<Product>) {
 }
 
 @Composable
-fun ProductItemFull(product: Product) {
+fun ProductItemFull(product: ProductDto) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -209,7 +229,12 @@ fun ProductItemFull(product: Product) {
             Spacer(Modifier.height(2.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Por Apple ", fontSize = 12.sp, color = Color.Gray)
-                Icon(Icons.Default.Star, contentDescription = null, tint = Color(0xFFFFD700), modifier = Modifier.size(14.dp))
+                Icon(
+                    Icons.Default.Star,
+                    contentDescription = null,
+                    tint = Color(0xFFFFD700),
+                    modifier = Modifier.size(14.dp)
+                )
                 Text(" 4.9 ", fontSize = 12.sp, color = Color.Gray)
                 Text("★ ★ ★ ★ ★", fontSize = 10.sp, color = Color(0xFFFFD700))
                 Text(" (38)", fontSize = 12.sp, color = Color.Gray)
@@ -225,11 +250,21 @@ fun ProductItemFull(product: Product) {
                 Spacer(Modifier.width(8.dp))
                 Text(product.price, fontWeight = FontWeight.Bold, fontSize = 22.sp)
                 Spacer(Modifier.width(8.dp))
-                Text(product.discount, color = Color(0xFF00A650), fontSize = 15.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    product.discount,
+                    color = Color(0xFF00A650),
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
             Text(product.installments, color = Color.Gray, fontSize = 12.sp)
             if (product.shipping.contains("gratis", true)) {
-                Text(product.shipping, color = Color(0xFF00A650), fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    product.shipping,
+                    color = Color(0xFF00A650),
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.Bold
+                )
             } else {
                 Text(product.shipping, color = Color.Gray, fontSize = 13.sp)
             }
