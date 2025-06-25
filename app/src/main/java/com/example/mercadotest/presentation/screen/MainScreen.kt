@@ -3,6 +3,7 @@ package com.example.mercadotest.presentation.screen
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,7 +20,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Settings
@@ -40,7 +40,6 @@ import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,20 +48,20 @@ import com.example.mercadotest.domain.model.ChipDto
 import com.example.mercadotest.domain.model.ProductDto
 
 @Composable
-fun MainScreen(products: List<ProductDto>) {
+fun MainScreen(products: List<ProductDto>, onSearchBarClick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFFFEB3B))
     ) {
-        TopBarFull()
+        TopBarFull(onSearchBarClick)
         FilterChipsFull()
         ProductListFull(products)
     }
 }
 
 @Composable
-fun TopBarFull() {
+fun TopBarFull(onSearchBarClick: () -> Unit) {
     Column(
         modifier = Modifier
             .background(Color(0xFFFFEB3B))
@@ -85,13 +84,13 @@ fun TopBarFull() {
                 onValueChange = {},
                 modifier = Modifier
                     .height(45.dp)
-                    .clip(RoundedCornerShape(24.dp)),
+                    .clip(RoundedCornerShape(24.dp))
+                    .clickable { onSearchBarClick() },
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = White,
-                    unfocusedContainerColor = White,
+                    disabledContainerColor = White
                 ),
                 singleLine = true,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                enabled = false,
                 label = { Text("Buscar...", fontSize = 14.sp, color = LightGray) },
             )
             Spacer(Modifier.width(8.dp))
