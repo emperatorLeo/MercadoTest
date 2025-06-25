@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -40,6 +41,7 @@ import com.example.mercadotest.R
 @Composable
 fun SearchScreen(
     recentSearches: List<String> = listOf("iphone", "samsung", "pelota"),
+    onSearch: (String) -> Unit = {},
     onBack: () -> Unit = {}
 ) {
     Column(
@@ -72,14 +74,14 @@ fun SearchScreen(
             val searchText = remember { mutableStateOf("") }
 
             TextField(
-                value =  searchText.value,
+                value = searchText.value,
                 onValueChange = { searchText.value = it },
                 modifier = Modifier
                     .padding(start = 8.dp)
-                    .clickable{
+                    .clickable {
 
                     },
-                label =  { Text("Buscar en Mercado Libre", color = LightGray) },
+                label = { Text("Buscar en Mercado Libre", color = LightGray) },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = White,
                     unfocusedContainerColor = White,
@@ -90,6 +92,9 @@ fun SearchScreen(
                 ),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions(onSearch = {
+                    onSearch(searchText.value.lowercase())
+                }),
                 textStyle = TextStyle(fontSize = 14.sp, color = Color.Gray)
             )
         }

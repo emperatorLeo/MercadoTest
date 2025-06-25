@@ -11,11 +11,11 @@ import retrofit2.Response.error
 import retrofit2.Response.success
 
 class ApiDataSourceImp(private val service: MeliMockService) : ApiDataSource {
-    var queryCounter = 2
+    var queryCounter = 0
 
     override suspend fun getSearch(query: String): Flow<Response<List<ProductItemResponse>>> =
         flow {
-            if (queryCounter <= 1) {
+            if (queryCounter <= 2) {
                 emit(success(service.queryService(query)))
                 queryCounter++
             } else {

@@ -3,8 +3,9 @@ package com.example.mercadotest.data.service
 import com.example.mercadotest.common.IPHONE
 import com.example.mercadotest.common.SAMSUNG
 import com.example.mercadotest.data.model.ProductItemResponse
+import javax.inject.Inject
 
-class MeliMockService {
+class MeliMockService @Inject constructor() {
     companion object fun queryService(query: String): List<ProductItemResponse> {
         return when (query) {
             IPHONE -> listOf(

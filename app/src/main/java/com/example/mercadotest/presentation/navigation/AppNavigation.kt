@@ -21,13 +21,14 @@ fun AppNavigation(
     NavHost(navController = navController, startDestination = MAIN_SCREEN) {
         composable(MAIN_SCREEN) {
             val products = mainViewModel.products.collectAsState()
-            MainScreen(products = products.value){
+            MainScreen(products = products.value) {
                 navController.navigate(SEARCH_SCREEN)
             }
         }
         composable(SEARCH_SCREEN) {
             SearchScreen(
                 recentSearches = listOf("iphone", "samsung", "pelota"),
+                onSearch = { query -> mainViewModel.getProducts(query) },
                 onBack = { navController.popBackStack() }
             )
         }
