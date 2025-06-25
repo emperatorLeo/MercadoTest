@@ -1,4 +1,4 @@
-package com.example.mercadotest.ui.theme
+package com.example.mercadotest.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

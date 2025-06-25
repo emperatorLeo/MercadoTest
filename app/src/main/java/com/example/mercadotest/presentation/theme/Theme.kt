@@ -1,4 +1,4 @@
-package com.example.mercadotest.ui.theme
+package com.example.mercadotest.presentation.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
