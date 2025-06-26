@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.mercadotest.R
 import com.example.mercadotest.common.IPHONE
 import com.example.mercadotest.presentation.navigation.AppRoutes.DETAIL_SCREEN
 import com.example.mercadotest.presentation.navigation.AppRoutes.MAIN_SCREEN
@@ -21,6 +22,7 @@ import com.example.mercadotest.presentation.screen.DetailScreen
 import com.example.mercadotest.presentation.screen.MainScreen
 import com.example.mercadotest.presentation.screen.SearchScreen
 import com.example.mercadotest.presentation.viewmodel.MainViewModel
+import kotlin.collections.listOf
 
 @Composable
 fun AppNavigation(
@@ -41,7 +43,7 @@ fun AppNavigation(
             MainScreen(productsState = products.value, onSearchBarClick = {
                 navController.navigate(SEARCH_SCREEN)
             }, onProductClick = { productId ->
-               // navController.navigate("detail_screen/$productId")
+
                 navController.navigate(
                     DETAIL_SCREEN.replace(
                         "{${PRODUCT_ID}}",
@@ -52,7 +54,7 @@ fun AppNavigation(
         }
         composable(SEARCH_SCREEN) {
             SearchScreen(
-                recentSearches = listOf("iphone", "samsung", "pelota"),
+                recentSearches = listOf(R.string.iphone, R.string.samsung,R.string.pelota),
                 onSearch = { query ->
                     if (query.isEmpty()) {
                         navController.popBackStack()
@@ -75,16 +77,7 @@ fun AppNavigation(
             val product = mainViewModel.getProductById(productId)
             if (product != null) {
                 DetailScreen(
-                    imageUrl = product.image,
-                    title = product.title,
-                    store = product.store,
-                    price = product.price,
-                    discount = product.discount,
-                    installments = product.installments,
-                    shipping = product.shipping,
-                    stock = "Stock disponible",
-                    description = product.description,
-                    legal = product.legal,
+                    product = product,
                     { navController.navigate(SEARCH_SCREEN) }
                 ) {
                     navController.popBackStack()

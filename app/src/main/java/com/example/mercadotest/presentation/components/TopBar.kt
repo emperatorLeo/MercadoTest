@@ -31,8 +31,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.mercadotest.R
 
 @Composable
 fun TopBarFull(
@@ -90,7 +92,7 @@ fun TopBarFull(
                 singleLine = true,
                 enabled = false,
                 readOnly = true,
-                label = { Text("Buscar...", fontSize = 14.sp, color = LightGray) },
+                label = { Text(stringResource(R.string.search_placeholder), fontSize = 14.sp, color = LightGray) },
             )
             if (!showBackArrow) {
                 Spacer(Modifier.width(8.dp))
@@ -114,7 +116,7 @@ fun TopBarFull(
                 contentDescription = null,
                 modifier = Modifier.size(18.dp)
             )
-            Text("Calle Posta 4789", fontSize = 15.sp)
+            Text(stringResource(R.string.location_address), fontSize = 15.sp)
             Icon(
                 Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = null,

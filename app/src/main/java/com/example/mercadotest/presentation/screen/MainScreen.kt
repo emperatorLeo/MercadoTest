@@ -21,7 +21,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -99,9 +100,9 @@ fun FilterChipsFull() {
     ) {
         items(
             listOf(
-                ChipDto(R.drawable.race_car, "Llega mañana"),
-                ChipDto(R.drawable.outline_credit_card_24, "Mejor precio en cuotas"),
-                ChipDto(0, "Enviado por")
+                ChipDto(R.drawable.race_car, R.string.arrives_tomorrow),
+                ChipDto(R.drawable.outline_credit_card_24, R.string.best_price_installments),
+                ChipDto(0, R.string.shipped_by)
             )
         ) {
             ChipWithIcon(it)
@@ -128,7 +129,7 @@ fun ChipWithIcon(chip: ChipDto) {
                 )
             }
             Spacer(Modifier.width(4.dp))
-            Text(chip.text, fontSize = 14.sp)
+            Text(stringResource(chip.text), fontSize = 14.sp)
         }
     }
 }
@@ -181,7 +182,7 @@ fun ProductItemFull(product: ProductDto, onProductClick: (Int) -> Unit) {
                     .background(White),
                 contentAlignment = Alignment.Center
             ) {
-                Text("❤", fontSize = 14.sp)
+                Text(stringResource(R.string.heart), fontSize = 14.sp)
             }
         }
         Spacer(Modifier.width(12.dp))
@@ -192,7 +193,7 @@ fun ProductItemFull(product: ProductDto, onProductClick: (Int) -> Unit) {
                 shape = RoundedCornerShape(4.dp)
             ) {
                 Text(
-                    "${product.store} TIENDA OFICIAL",
+                    stringResource(R.string.official_store, product.store),
                     color = White,
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Bold,
@@ -205,21 +206,21 @@ fun ProductItemFull(product: ProductDto, onProductClick: (Int) -> Unit) {
             Text(product.store, color = Color.Gray, fontSize = 12.sp)
             Spacer(Modifier.height(2.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Por Apple ", fontSize = 12.sp, color = Color.Gray)
+                Text(stringResource(R.string.by_store,product.store), fontSize = 12.sp, color = Color.Gray)
                 Icon(
-                    Icons.Default.Star,
+                    Icons.Rounded.CheckCircle,
                     contentDescription = null,
-                    tint = Color(0xFFFFD700),
+                    tint = Color(0xFF465ABD),
                     modifier = Modifier.size(14.dp)
                 )
-                Text(" 4.9 ", fontSize = 12.sp, color = Color.Gray)
-                Text("★ ★ ★ ★ ★", fontSize = 10.sp, color = Color(0xFFFFD700))
-                Text(" (38)", fontSize = 12.sp, color = Color.Gray)
+                Text(stringResource(R.string.grades), fontSize = 12.sp, color = Color.Gray)
+                Text(stringResource(R.string.stars), fontSize = 10.sp, color = Color(0xFF465ABD))
+                Text(stringResource(R.string.therty_eight), fontSize = 12.sp, color = Color.Gray)
             }
             Spacer(Modifier.height(2.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    "$2,399,999",
+                    stringResource(R.string.price_discount),
                     fontSize = 13.sp,
                     color = Color.Gray,
                     textDecoration = TextDecoration.LineThrough
@@ -245,7 +246,7 @@ fun ProductItemFull(product: ProductDto, onProductClick: (Int) -> Unit) {
             } else {
                 Text(product.shipping, color = Color.Gray, fontSize = 13.sp)
             }
-            Text("Disponible en 3 colores", color = Color.Gray, fontSize = 12.sp)
+            Text(stringResource(R.string.available_in_colors), color = Color.Gray, fontSize = 12.sp)
         }
     }
 }

@@ -1,3 +1,46 @@
 <resources>
     <string name="app_name">MercadoTest</string>
+    <string name="search_placeholder">Buscar…</string>
+    <string name="no_products">No hay productos para mostrar</string>
+    <string name="arrives_tomorrow">Llega mañana</string>
+    <string name="best_price_installments">Mejor precio en cuotas</string>
+    <string name="shipped_by">Enviado por</string>
+    <string name="stock_available">Stock disponible</string>
+    <string name="buy_now">Comprar ahora</string>
+    <string name="add_to_cart">Agregar al carrito</string>
+    <string name="official_store">Tienda oficial %1$s</string>
+    <string name="sold_by">Vendido por %1$s</string>
+    <string name="sales_count">+%1$smil ventas</string>
+    <string name="description">Descripción</string>
+    <string name="legal_notice">Aviso legal</string>
+    <string name="new_and_sold">Nuevo  |  +100 vendidos</string>
+    <string name="see_on_map">Ver en el mapa</string>
+    <string name="free_shipping">Llega gratis el sábado</string>
+    <string name="installments">Mismo precio en 9 cuotas de $127.999</string>
+    <string name="error_unknown">Error desconocido</string>
+    <string name="back">Volver</string>
+    <string name="search_in_mercadolibre">Buscar en Mercado Libre</string>
+    <string name="location_address">Calle Posta 4789</string>
+    <string name="location_address_detail">Calle Bauness 1825</string>
+    <string name="official_store_label">TIENDA OFICIAL</string>
+    <string name="sold_by_macstation">Vendido por %s OFICIAL</string>
+    <string name="star_rating">4.9 ★ (381)</string>
+    <string name="see_payment_methods">Ver los medios de pago</string>
+    <string name="pick_up_free">Retira gratis a partir del sábado en correos y otros puntos</string>
+    <string name="pick_up_point">Tienes un punto de entrega a 450m</string>
+    <string name="more_delivery_methods">Más formas de entrega</string>
+    <string name="free_shipping_label">Envío gratis</string>
+    <string name="available_in_colors">Disponible en 3 colores</string>
+    <string name="legal_text">(1) La pantalla tiene las esquinas redondeadas…</string>
+    <string name="by_store">Por %s</string>
+    <string name="price_discount">$2,399,999</string>
+    <string name="grades">" 4.9 "</string>
+    <string name="stars">★ ★ ★ ★ ★</string>
+    <string name="therty_eight">" (38)"</string>
+    <string name="heart">❤</string>
+    <string name="iphone">iphone</string>
+    <string name="samsung">samsung</string>
+    <string name="pelota">pelota</string>
+    <string name="ten_thousand_products">+10mil ventas</string>
+
 </resources>

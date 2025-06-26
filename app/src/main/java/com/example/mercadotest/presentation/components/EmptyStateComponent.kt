@@ -11,7 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.mercadotest.R
 import com.example.mercadotest.common.EMPTY_LOTTIE_JSON
 import com.lottiefiles.dotlottie.core.compose.ui.DotLottieAnimation
 import com.lottiefiles.dotlottie.core.util.DotLottieSource
@@ -34,7 +36,7 @@ fun EmptyStateComponent() {
             )
 
             Text(
-                text = "No hay productos para mostrar",
+                text = stringResource(R.string.no_products),
                 color = Color.Gray,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )

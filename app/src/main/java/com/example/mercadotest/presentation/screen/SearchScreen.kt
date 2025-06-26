@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -40,7 +41,7 @@ import com.example.mercadotest.R
 
 @Composable
 fun SearchScreen(
-    recentSearches: List<String> = listOf("iphone", "samsung", "pelota"),
+    recentSearches: List<Int>,
     onSearch: (String) -> Unit = {},
     onBack: () -> Unit = {}
 ) {
@@ -81,7 +82,7 @@ fun SearchScreen(
                     .clickable {
 
                     },
-                label = { Text("Buscar en Mercado Libre", color = LightGray) },
+                label = { Text(stringResource(R.string.search_in_mercadolibre), color = LightGray) },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = White,
                     unfocusedContainerColor = White,
@@ -123,7 +124,7 @@ fun SearchScreen(
                         modifier = Modifier.size(24.dp)
                     )
                     Text(
-                        text = search,
+                        text = stringResource(search),
                         color = LightGray,
                         fontSize = 18.sp,
                         modifier = Modifier
