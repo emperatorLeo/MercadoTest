@@ -15,7 +15,7 @@ class RepositoryImp(private val dataSource: ApiDataSource): Repository {
                val dtoList = it.body()?.map { response -> response.fromResponseToDto() }
                emit(success(dtoList))
            } else {
-               emit(error(it.code(),it.errorBody()!!))
+               emit(error(it.errorBody()!!,it.raw()))
            }
        }
     }

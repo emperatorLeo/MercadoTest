@@ -42,9 +42,13 @@ fun AppNavigation(
             SearchScreen(
                 recentSearches = listOf("iphone", "samsung", "pelota"),
                 onSearch = { query ->
-                    navController.navigate(MAIN_SCREEN.replace("{${QUERY_SEARCH}}",query)) {
-                        popUpTo(MAIN_SCREEN) {
-                            inclusive = true
+                    if (query.isEmpty()) {
+                        navController.popBackStack()
+                    } else {
+                        navController.navigate(MAIN_SCREEN.replace("{${QUERY_SEARCH}}", query)) {
+                            popUpTo(MAIN_SCREEN) {
+                                inclusive = true
+                            }
                         }
                     }
                 },

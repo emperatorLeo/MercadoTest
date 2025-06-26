@@ -12,12 +12,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.mercadotest.common.EMPTY_LOTTIE_JSON
+import com.example.mercadotest.common.ERROR_LOTTIE_JSON
 import com.lottiefiles.dotlottie.core.compose.ui.DotLottieAnimation
 import com.lottiefiles.dotlottie.core.util.DotLottieSource
 
 @Composable
-fun EmptyStateComponent() {
+fun ErrorStateComponent(message: String) {
     Box(
         Modifier
             .fillMaxSize()
@@ -25,7 +25,7 @@ fun EmptyStateComponent() {
     ) {
         Column(modifier = Modifier.align(Alignment.Center)) {
             DotLottieAnimation(
-                source = DotLottieSource.Json(EMPTY_LOTTIE_JSON),
+                source = DotLottieSource.Json(ERROR_LOTTIE_JSON),
                 autoplay = true,
                 modifier = Modifier
                     .size(200.dp)
@@ -34,8 +34,8 @@ fun EmptyStateComponent() {
             )
 
             Text(
-                text = "No hay productos para mostrar",
-                color = Color.Gray,
+                text = message,
+                color = Color.Red,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
         }

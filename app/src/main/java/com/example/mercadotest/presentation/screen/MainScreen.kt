@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Settings
@@ -38,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.LightGray
+import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -50,6 +52,7 @@ import com.example.mercadotest.R
 import com.example.mercadotest.domain.model.ChipDto
 import com.example.mercadotest.domain.model.ProductDto
 import com.example.mercadotest.presentation.components.EmptyStateComponent
+import com.example.mercadotest.presentation.components.ErrorStateComponent
 import com.example.mercadotest.presentation.viewmodel.UIState
 
 @Composable
@@ -75,11 +78,7 @@ fun MainScreen(
                 }
 
                 is UIState.Error -> {
-                    Text(
-                        text = productsState.message,
-                        color = Color.Red,
-                        modifier = Modifier.align(Alignment.Center)
-                    )
+                    ErrorStateComponent(productsState.message)
                 }
 
                 is UIState.Empty -> {
@@ -123,10 +122,16 @@ fun TopBarFull(onSearchBarClick: () -> Unit) {
                     .clip(RoundedCornerShape(24.dp))
                     .clickable { onSearchBarClick() },
                 colors = TextFieldDefaults.colors(
-                    disabledContainerColor = White
+                    disabledContainerColor = White,
+                    unfocusedContainerColor = White,
+                    focusedContainerColor = Red,
+                    unfocusedPlaceholderColor = White,
+                    disabledPlaceholderColor = White,
+                    selectionColors = TextSelectionColors(backgroundColor = White, handleColor = White)
                 ),
                 singleLine = true,
                 enabled = false,
+                readOnly = true,
                 label = { Text("Buscar...", fontSize = 14.sp, color = LightGray) },
             )
             Spacer(Modifier.width(8.dp))

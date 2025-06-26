@@ -27,7 +27,7 @@ class MainViewModel @Inject constructor(private val searchUseCase: SearchUseCase
                         } else {
                             _productsState.value = UIState.Empty
                         }
-                    }else {
+                    } else {
                         _productsState.value = UIState.Error(result.message())
                     }
                 }
