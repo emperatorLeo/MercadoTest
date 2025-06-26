@@ -1,6 +1,5 @@
 package com.example.mercadotest.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mercadotest.domain.model.ProductDto
@@ -13,14 +12,23 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(private val searchUseCase: SearchUseCase) : ViewModel() {
-    private val _products = MutableStateFlow<List<ProductDto>>(emptyList())
-    val products: StateFlow<List<ProductDto>> = _products
+    private val _productsState = MutableStateFlow<UIState<List<ProductDto>>>(UIState.Empty)
+    val productsState: StateFlow<UIState<List<ProductDto>>> = _productsState
 
     fun getProducts(query: String) {
+        _productsState.value = UIState.Loading
         viewModelScope.launch {
-            searchUseCase(query).collect { result ->
-                Log.d("Leo","${result.body()}")
-                //_products.value = result
+            try {
+                searchUseCase(query).collect { result ->
+                    val body = result.body()
+                    if (body != null && body.isNotEmpty()) {
+                        _productsState.value = UIState.Success(body)
+                    } else {
+                        _productsState.value = UIState.Empty
+                    }
+                }
+            } catch (e: Exception) {
+                _productsState.value = UIState.Error(e.message ?: "Error desconocido")
             }
         }
     }

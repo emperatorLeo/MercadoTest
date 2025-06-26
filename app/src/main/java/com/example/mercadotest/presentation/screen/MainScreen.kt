@@ -25,6 +25,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -46,9 +47,13 @@ import androidx.compose.ui.unit.sp
 import com.example.mercadotest.R
 import com.example.mercadotest.domain.model.ChipDto
 import com.example.mercadotest.domain.model.ProductDto
+import com.example.mercadotest.presentation.viewmodel.UIState
 
 @Composable
-fun MainScreen(products: List<ProductDto>, onSearchBarClick: () -> Unit) {
+fun MainScreen(
+    productsState: UIState<List<ProductDto>>,
+    onSearchBarClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -56,7 +61,30 @@ fun MainScreen(products: List<ProductDto>, onSearchBarClick: () -> Unit) {
     ) {
         TopBarFull(onSearchBarClick)
         FilterChipsFull()
-        ProductListFull(products)
+        Box(modifier = Modifier.fillMaxSize()) {
+            when (productsState) {
+                is UIState.Loading -> {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                }
+                is UIState.Error -> {
+                    Text(
+                        text = productsState.message,
+                        color = Color.Red,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+                is UIState.Empty -> {
+                    Text(
+                        text = "No hay productos para mostrar",
+                        color = Color.Gray,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+                is UIState.Success -> {
+                    ProductListFull(productsState.data)
+                }
+            }
+        }
     }
 }
 
