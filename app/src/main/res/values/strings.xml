@@ -42,5 +42,17 @@
     <string name="samsung">samsung</string>
     <string name="pelota">pelota</string>
     <string name="ten_thousand_products">+10mil ventas</string>
-
+    <string name="product_image_content_description">Imagen del producto %1$s</string>
+    <string name="verified_icon_content_description">Producto verificado</string>
+    <string name="buy_now_accessibility">Botón Comprar ahora</string>
+    <string name="add_to_cart_accessibility">Botón Agregar al carrito</string>
+    <string name="search_bar_accessibility">Barra de búsqueda</string>
+    <string name="back_button_accessibility">Botón volver</string>
+    <string name="search_history_accessibility">Búsqueda reciente: %1$s</string>
+    <string name="search_field_accessibility">Campo de búsqueda</string>
+    <string name="settings_icon_accessibility">Configuración</string>
+    <string name="location_icon_accessibility">Ubicación</string>
+    <string name="star_icon_accessibility">Calificación</string>
+    <string name="favorite_icon_accessibility">Favorito</string>
+    <string name="store_icon_content_description">Icono de tienda</string>
 </resources>

@@ -35,6 +35,10 @@ import coil3.compose.AsyncImage
 import com.example.mercadotest.R
 import com.example.mercadotest.domain.model.ProductDto
 import com.example.mercadotest.presentation.components.TopBarFull
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
 
 @Composable
 fun DetailScreen(
@@ -88,7 +92,10 @@ fun DetailScreen(
             ) {
                 AsyncImage(
                     model = product.image,
-                    contentDescription = null,
+                    contentDescription = stringResource(
+                        R.string.product_image_content_description,
+                        product.title
+                    ),
                     contentScale = ContentScale.Fit,
                     modifier = Modifier.fillMaxSize(),
                     placeholder = painterResource(id = R.drawable.placeholder),
@@ -119,8 +126,11 @@ fun DetailScreen(
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Button(
                     onClick = { },
-                    modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3483FA))
+                    modifier = Modifier
+                        .weight(1f)
+                        .semantics { contentDescription = "Botón comprar ahora" }
+                        .semantics { role = Role.Button },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3483FA)),
                 ) {
                     Text(
                         stringResource(R.string.buy_now),
@@ -130,8 +140,11 @@ fun DetailScreen(
                 }
                 Button(
                     onClick = { },
-                    modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE3EDFB))
+                    modifier = Modifier
+                        .weight(1f)
+                        .semantics { contentDescription = "Botón agregar al carrito" }
+                        .semantics { role = Role.Button },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE3EDFB)),
                 ) {
                     Text(
                         stringResource(R.string.add_to_cart),
@@ -145,8 +158,11 @@ fun DetailScreen(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     painter = painterResource(id = R.drawable.storefront),
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp)
+                    contentDescription = stringResource(R.string.store_icon_content_description),
+                    modifier = Modifier
+                        .size(24.dp)
+                        .semantics { contentDescription = "Icono de tienda" }
+                        .semantics { role = Role.Image },
                 )
                 Column(Modifier.padding(start = 8.dp)) {
                     Text(

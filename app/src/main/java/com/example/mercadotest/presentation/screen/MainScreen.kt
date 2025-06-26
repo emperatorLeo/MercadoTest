@@ -166,7 +166,7 @@ fun ProductItemFull(product: ProductDto, onProductClick: (Int) -> Unit) {
         ) {
             AsyncImage(
                 model = product.image,
-                contentDescription = null,
+                contentDescription = stringResource(R.string.product_image_content_description, product.title),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxSize()

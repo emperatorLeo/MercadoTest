@@ -38,6 +38,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mercadotest.R
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 
 @Composable
 fun SearchScreen(
@@ -81,7 +83,7 @@ fun SearchScreen(
                     .padding(start = 8.dp)
                     .clickable {
 
-                    },
+                    }.semantics { contentDescription = "Campo de búsqueda" },
                 label = { Text(stringResource(R.string.search_in_mercadolibre), color = LightGray) },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = White,
@@ -111,11 +113,13 @@ fun SearchScreen(
             modifier = Modifier.fillMaxSize()
         ) {
             items(recentSearches) { search ->
+                val item = stringResource(search)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 18.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                        .padding(horizontal = 16.dp, vertical = 18.dp)
+                        .semantics { contentDescription = "Busqueda recientes $item" },
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.outline_history),
