@@ -1,6 +1,7 @@
 package com.example.mercadotest.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -27,7 +28,10 @@ fun AppNavigation(
             type = StringType
         })) { navBackStackEntry ->
             val query = navBackStackEntry.arguments?.getString(QUERY_SEARCH) ?: IPHONE
-            mainViewModel.getProducts(query)
+            LaunchedEffect(Unit) {
+                mainViewModel.getProducts(query)
+            }
+
             val products = mainViewModel.productsState.collectAsState()
 
             MainScreen(products.value) {

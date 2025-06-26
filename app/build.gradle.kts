@@ -52,17 +52,20 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    // Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
     // Hilt
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation)
     ksp(libs.hilt.android.compiler)
 
+    // Lottie
+    implementation(libs.dotlottie.android)
+    
     // Retrofit
     implementation(libs.retrofit)
-
-    // Coil
-    implementation(libs.coil.compose)
-    implementation(libs.coil.network.okhttp)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -49,6 +49,7 @@ import coil3.compose.AsyncImage
 import com.example.mercadotest.R
 import com.example.mercadotest.domain.model.ChipDto
 import com.example.mercadotest.domain.model.ProductDto
+import com.example.mercadotest.presentation.components.EmptyStateComponent
 import com.example.mercadotest.presentation.viewmodel.UIState
 
 @Composable
@@ -66,7 +67,11 @@ fun MainScreen(
         Box(modifier = Modifier.fillMaxSize()) {
             when (productsState) {
                 is UIState.Loading -> {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .size(100.dp)
+                    )
                 }
 
                 is UIState.Error -> {
@@ -78,11 +83,7 @@ fun MainScreen(
                 }
 
                 is UIState.Empty -> {
-                    Text(
-                        text = "No hay productos para mostrar",
-                        color = Color.Gray,
-                        modifier = Modifier.align(Alignment.Center)
-                    )
+                    EmptyStateComponent()
                 }
 
                 is UIState.Success -> {

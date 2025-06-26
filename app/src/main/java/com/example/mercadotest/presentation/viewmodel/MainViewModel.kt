@@ -20,11 +20,15 @@ class MainViewModel @Inject constructor(private val searchUseCase: SearchUseCase
         viewModelScope.launch {
             try {
                 searchUseCase(query).collect { result ->
-                    val body = result.body()
-                    if (body != null && body.isNotEmpty()) {
-                        _productsState.value = UIState.Success(body)
-                    } else {
-                        _productsState.value = UIState.Empty
+                    if (result.isSuccessful) {
+                        val body = result.body()
+                        if (body != null && body.isNotEmpty()) {
+                            _productsState.value = UIState.Success(body)
+                        } else {
+                            _productsState.value = UIState.Empty
+                        }
+                    }else {
+                        _productsState.value = UIState.Error(result.message())
                     }
                 }
             } catch (e: Exception) {

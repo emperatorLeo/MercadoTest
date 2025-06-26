@@ -1,5 +1,6 @@
 package com.example.mercadotest.data.apisource
 
+import android.util.Log
 import com.example.mercadotest.data.model.ProductItemResponse
 import com.example.mercadotest.data.service.MeliMockService
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +16,7 @@ class ApiDataSourceImp(private val service: MeliMockService) : ApiDataSource {
 
     override suspend fun getSearch(query: String): Flow<Response<List<ProductItemResponse>>> =
         flow {
+            Log.d("Leo","counter $queryCounter")
             if (queryCounter <= 2) {
                 emit(success(service.queryService(query)))
                 queryCounter++
