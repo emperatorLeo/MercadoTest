@@ -36,4 +36,11 @@ class MainViewModel @Inject constructor(private val searchUseCase: SearchUseCase
             }
         }
     }
+
+    fun getProductById(id: Int): ProductDto? {
+        val state = productsState.value
+        return if (state is UIState.Success) {
+            state.data.find { it.productId == id }
+        } else null
+    }
 }

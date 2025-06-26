@@ -8,5 +8,7 @@ data class ProductDto(
     val price: String,
     val discount: String,
     val installments: String,
-    val shipping: String
+    val shipping: String,
+    val description: String,
+    val legal: String,
 )

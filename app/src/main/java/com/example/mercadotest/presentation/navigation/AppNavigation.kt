@@ -5,15 +5,19 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.NavType.Companion.StringType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.mercadotest.common.IPHONE
+import com.example.mercadotest.presentation.navigation.AppRoutes.DETAIL_SCREEN
 import com.example.mercadotest.presentation.navigation.AppRoutes.MAIN_SCREEN
+import com.example.mercadotest.presentation.navigation.AppRoutes.PRODUCT_ID
 import com.example.mercadotest.presentation.navigation.AppRoutes.QUERY_SEARCH
 import com.example.mercadotest.presentation.navigation.AppRoutes.SEARCH_SCREEN
+import com.example.mercadotest.presentation.screen.DetailScreen
 import com.example.mercadotest.presentation.screen.MainScreen
 import com.example.mercadotest.presentation.screen.SearchScreen
 import com.example.mercadotest.presentation.viewmodel.MainViewModel
@@ -34,9 +38,17 @@ fun AppNavigation(
 
             val products = mainViewModel.productsState.collectAsState()
 
-            MainScreen(products.value) {
+            MainScreen(productsState = products.value, onSearchBarClick = {
                 navController.navigate(SEARCH_SCREEN)
-            }
+            }, onProductClick = { productId ->
+               // navController.navigate("detail_screen/$productId")
+                navController.navigate(
+                    DETAIL_SCREEN.replace(
+                        "{${PRODUCT_ID}}",
+                        productId.toString()
+                    )
+                )
+            })
         }
         composable(SEARCH_SCREEN) {
             SearchScreen(
@@ -54,6 +66,30 @@ fun AppNavigation(
                 },
                 onBack = { navController.popBackStack() }
             )
+        }
+        composable(
+            route = DETAIL_SCREEN,
+            arguments = listOf(navArgument(PRODUCT_ID) { type = NavType.IntType })
+        ) { backStackEntry ->
+            val productId = backStackEntry.arguments?.getInt(PRODUCT_ID) ?: 0
+            val product = mainViewModel.getProductById(productId)
+            if (product != null) {
+                DetailScreen(
+                    imageUrl = product.image,
+                    title = product.title,
+                    store = product.store,
+                    price = product.price,
+                    discount = product.discount,
+                    installments = product.installments,
+                    shipping = product.shipping,
+                    stock = "Stock disponible",
+                    description = product.description,
+                    legal = product.legal,
+                    { navController.navigate(SEARCH_SCREEN) }
+                ) {
+                    navController.popBackStack()
+                }
+            }
         }
     }
 }

@@ -20,26 +20,19 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.LightGray
-import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -53,19 +46,21 @@ import com.example.mercadotest.domain.model.ChipDto
 import com.example.mercadotest.domain.model.ProductDto
 import com.example.mercadotest.presentation.components.EmptyStateComponent
 import com.example.mercadotest.presentation.components.ErrorStateComponent
+import com.example.mercadotest.presentation.components.TopBarFull
 import com.example.mercadotest.presentation.viewmodel.UIState
 
 @Composable
 fun MainScreen(
     productsState: UIState<List<ProductDto>>,
-    onSearchBarClick: () -> Unit
+    onSearchBarClick: () -> Unit,
+    onProductClick: (Int) -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFFFEB3B))
     ) {
-        TopBarFull(onSearchBarClick)
+        TopBarFull(onSearchBarClick = onSearchBarClick)
         FilterChipsFull()
         Box(modifier = Modifier.fillMaxSize()) {
             when (productsState) {
@@ -86,76 +81,9 @@ fun MainScreen(
                 }
 
                 is UIState.Success -> {
-                    ProductListFull(productsState.data)
+                    ProductListFull(productsState.data, onProductClick)
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun TopBarFull(onSearchBarClick: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .background(Color(0xFFFFEB3B))
-            .padding(bottom = 4.dp)
-    ) {
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(30.dp)
-        )
-
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 4.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.End
-        ) {
-            TextField(
-                value = "",
-                onValueChange = {},
-                modifier = Modifier
-                    .height(45.dp)
-                    .clip(RoundedCornerShape(24.dp))
-                    .clickable { onSearchBarClick() },
-                colors = TextFieldDefaults.colors(
-                    disabledContainerColor = White,
-                    unfocusedContainerColor = White,
-                    focusedContainerColor = Red,
-                    unfocusedPlaceholderColor = White,
-                    disabledPlaceholderColor = White,
-                    selectionColors = TextSelectionColors(backgroundColor = White, handleColor = White)
-                ),
-                singleLine = true,
-                enabled = false,
-                readOnly = true,
-                label = { Text("Buscar...", fontSize = 14.sp, color = LightGray) },
-            )
-            Spacer(Modifier.width(8.dp))
-            Icon(Icons.Default.Settings, contentDescription = null, modifier = Modifier.size(28.dp))
-        }
-
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 2.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
-            Icon(
-                Icons.Outlined.LocationOn,
-                contentDescription = null,
-                modifier = Modifier.size(18.dp)
-            )
-            Text("Calle Posta 4789", fontSize = 15.sp)
-            Icon(
-                Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = null,
-                modifier = Modifier.size(20.dp)
-            )
         }
     }
 }
@@ -206,25 +134,27 @@ fun ChipWithIcon(chip: ChipDto) {
 }
 
 @Composable
-fun ProductListFull(products: List<ProductDto>) {
+fun ProductListFull(products: List<ProductDto>, onProductClick: (Int) -> Unit) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(White)
     ) {
         items(products) { product ->
-            ProductItemFull(product)
+            ProductItemFull(product, onProductClick)
             HorizontalDivider(thickness = 1.dp, color = Color(0xFFE0E0E0))
         }
     }
 }
 
 @Composable
-fun ProductItemFull(product: ProductDto) {
+fun ProductItemFull(product: ProductDto, onProductClick: (Int) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(12.dp)
+            .clickable { onProductClick(product.productId) },
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier

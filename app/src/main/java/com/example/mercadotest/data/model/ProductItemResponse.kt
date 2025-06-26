@@ -11,6 +11,8 @@ data class ProductItemResponse(
     val discount: String,
     val installments: String,
     val shipping: String,
+    val description: String,
+    val legal: String
 ) {
     fun fromResponseToDto(): ProductDto {
         return ProductDto(
@@ -21,7 +23,9 @@ data class ProductItemResponse(
             price,
             discount,
             installments,
-            shipping
+            shipping,
+            description,
+            legal
         )
     }
 }
