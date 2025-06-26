@@ -39,11 +39,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import com.example.mercadotest.R
 import com.example.mercadotest.domain.model.ChipDto
 import com.example.mercadotest.domain.model.ProductDto
@@ -66,6 +68,7 @@ fun MainScreen(
                 is UIState.Loading -> {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
+
                 is UIState.Error -> {
                     Text(
                         text = productsState.message,
@@ -73,6 +76,7 @@ fun MainScreen(
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
+
                 is UIState.Empty -> {
                     Text(
                         text = "No hay productos para mostrar",
@@ -80,6 +84,7 @@ fun MainScreen(
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
+
                 is UIState.Success -> {
                     ProductListFull(productsState.data)
                 }
@@ -96,9 +101,11 @@ fun TopBarFull(onSearchBarClick: () -> Unit) {
             .padding(bottom = 4.dp)
     ) {
 
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .height(30.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+        )
 
         Row(
             Modifier
@@ -213,16 +220,23 @@ fun ProductItemFull(product: ProductDto) {
             .fillMaxWidth()
             .padding(12.dp)
     ) {
-        // Imagen del producto (placeholder)
         Box(
             modifier = Modifier
-                .size(110.dp)
+                .size(width = 110.dp, height = 110.dp)
                 .clip(RoundedCornerShape(12.dp))
                 .background(Color(0xFFE0E0E0)),
             contentAlignment = Alignment.TopEnd
         ) {
-            // Aquí podrías usar Coil para cargar la imagen real
-            // Icono de favorito (placeholder)
+            AsyncImage(
+                model = product.image,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(12.dp)),
+                placeholder = painterResource(id = R.drawable.placeholder),
+                error = painterResource(id = R.drawable.error_image)
+            )
             Box(
                 Modifier
                     .padding(6.dp)
@@ -242,7 +256,7 @@ fun ProductItemFull(product: ProductDto) {
                 shape = RoundedCornerShape(4.dp)
             ) {
                 Text(
-                    "APPLE TIENDA OFICIAL",
+                    "${product.store} TIENDA OFICIAL",
                     color = White,
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Bold,
@@ -250,7 +264,7 @@ fun ProductItemFull(product: ProductDto) {
                 )
             }
             Spacer(Modifier.height(2.dp))
-            Text("APPLE", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.Gray)
+            Text(product.store, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.Gray)
             Text(product.title, fontWeight = FontWeight.Bold, fontSize = 15.sp)
             Text(product.store, color = Color.Gray, fontSize = 12.sp)
             Spacer(Modifier.height(2.dp))

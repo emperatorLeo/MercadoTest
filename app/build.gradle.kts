@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "com.example.mercadotest"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.mercadotest"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -59,6 +59,10 @@ dependencies {
 
     // Retrofit
     implementation(libs.retrofit)
+
+    // Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
