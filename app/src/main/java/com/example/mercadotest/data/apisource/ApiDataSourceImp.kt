@@ -20,7 +20,6 @@ class ApiDataSourceImp(private val service: MeliMockService) : ApiDataSource {
                 queryCounter++
             } else {
                 queryCounter = 0
-
                 emit(getMockedErrorResponse())
             }
         }

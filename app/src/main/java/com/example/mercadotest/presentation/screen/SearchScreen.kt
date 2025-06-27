@@ -47,6 +47,8 @@ fun SearchScreen(
     onSearch: (String) -> Unit = {},
     onBack: () -> Unit = {}
 ) {
+    val searchText = remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -74,7 +76,7 @@ fun SearchScreen(
                     .padding(start = 4.dp)
                     .clickable { onBack() }
             )
-            val searchText = remember { mutableStateOf("") }
+
 
             TextField(
                 value = searchText.value,
@@ -118,7 +120,11 @@ fun SearchScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 18.dp)
-                        .semantics { contentDescription = "Busqueda recientes $item" },
+                        .semantics { contentDescription = "Busqueda recientes $item" }
+                        .clickable {
+                            searchText.value = item
+                            onSearch(item)
+                                   },
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
