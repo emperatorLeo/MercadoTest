@@ -19,17 +19,22 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.LocationOn
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.LightGray
-import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -40,20 +45,21 @@ import com.example.mercadotest.R
 fun TopBarFull(
     showBackArrow: Boolean = false,
     onSearchBarClick: () -> Unit,
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
+    mainColor: Color = Color(0xFF3483FA),
+    onColorSelected: (Color) -> Unit ={}
 ) {
+    var expanded by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .background(Color(0xFFFFEB3B))
             .padding(bottom = 4.dp)
     ) {
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(30.dp)
         )
-
         Row(
             Modifier
                 .fillMaxWidth()
@@ -64,13 +70,12 @@ fun TopBarFull(
             if (showBackArrow)
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Volver",
+                    contentDescription = stringResource(R.string.back_button_accessibility),
                     modifier = Modifier
                         .padding(start = 10.dp, end = 10.dp)
                         .size(28.dp)
                         .clickable { onBackClick() }
                 )
-
             TextField(
                 value = "",
                 onValueChange = {},
@@ -81,7 +86,7 @@ fun TopBarFull(
                 colors = TextFieldDefaults.colors(
                     disabledContainerColor = White,
                     unfocusedContainerColor = White,
-                    focusedContainerColor = Red,
+                    focusedContainerColor = mainColor,
                     unfocusedPlaceholderColor = White,
                     disabledPlaceholderColor = White,
                     selectionColors = TextSelectionColors(
@@ -94,16 +99,52 @@ fun TopBarFull(
                 readOnly = true,
                 label = { Text(stringResource(R.string.search_placeholder), fontSize = 14.sp, color = LightGray) },
             )
+            Spacer(Modifier.width(8.dp))
             if (!showBackArrow) {
-                Spacer(Modifier.width(8.dp))
-                Icon(
-                    Icons.Default.Settings,
-                    contentDescription = null,
-                    modifier = Modifier.size(28.dp)
-                )
+                Box {
+                    Icon(
+                        Icons.Default.Settings,
+                        contentDescription = stringResource(R.string.settings_icon_accessibility),
+                        modifier = Modifier
+                            .size(28.dp)
+                            .clickable { expanded = true }
+                    )
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Naranja") },
+                            onClick = {
+                                onColorSelected(Color(0xFFFF9800)) // Naranja
+                                expanded = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Violeta") },
+                            onClick = {
+                                onColorSelected(Color(0xFF8E24AA)) // Violeta
+                                expanded = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Verde") },
+                            onClick = {
+                                onColorSelected(Color(0xFF43A047)) // Verde
+                                expanded = false
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Azul") },
+                            onClick = {
+                                onColorSelected(Color(0xFF3483FA)) // Azul
+                                expanded = false
+                            }
+                        )
+                    }
+                }
             }
         }
-
         Row(
             Modifier
                 .fillMaxWidth()
@@ -113,7 +154,7 @@ fun TopBarFull(
         ) {
             Icon(
                 Icons.Outlined.LocationOn,
-                contentDescription = null,
+                contentDescription = stringResource(R.string.location_icon_accessibility),
                 modifier = Modifier.size(18.dp)
             )
             Text(stringResource(R.string.location_address), fontSize = 15.sp)

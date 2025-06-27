@@ -19,7 +19,7 @@ class MeliMockService @Inject constructor() {
                         "https://co.tiendasishop.com/cdn/shop/files/IMG-12496200_650e0208-1263-4b01-af7e-2fe182057883.jpg?v=1738685691&width=823",
                         "https://cf6.certideal.com/33818-thickbox_default/iphone-13-128-gb-blanco-estrella.jpg"
                     ),
-                    storeName = "Distribuidor Autorizado",
+                    storeName = "APPLE",
                     price = "$1.151.999",
                     discount = "52% OFF",
                     installments = "Mismo precio en 9 cuotas de $127.999",
@@ -64,7 +64,7 @@ class MeliMockService @Inject constructor() {
                         "https://co.tiendasishop.com/cdn/shop/files/IMG-12496200_650e0208-1263-4b01-af7e-2fe182057883.jpg?v=1738685691&width=823",
                         "https://cf6.certideal.com/33818-thickbox_default/iphone-13-128-gb-blanco-estrella.jpg"
                     ),
-                    storeName = "Distribuidor Autorizado",
+                    storeName = "APPLE",
                     price = "$1.151.999",
                     discount = "52% OFF",
                     installments = "Mismo precio en 9 cuotas de $127.999",

@@ -1,5 +1,6 @@
 package com.example.mercadotest.presentation.viewmodel
 
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mercadotest.domain.model.ProductDto
@@ -14,6 +15,13 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(private val searchUseCase: SearchUseCase) : ViewModel() {
     private val _productsState = MutableStateFlow<UIState<List<ProductDto>>>(UIState.Empty)
     val productsState: StateFlow<UIState<List<ProductDto>>> = _productsState
+
+    private val _mainColor = MutableStateFlow(Color(0xFF3483FA))
+    val mainColor: StateFlow<Color> = _mainColor
+
+    fun setMainColor(color: Color) {
+        _mainColor.value = color
+    }
 
     fun getProducts(query: String) {
         _productsState.value = UIState.Loading

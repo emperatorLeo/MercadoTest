@@ -54,14 +54,20 @@ import com.example.mercadotest.presentation.viewmodel.UIState
 fun MainScreen(
     productsState: UIState<List<ProductDto>>,
     onSearchBarClick: () -> Unit,
-    onProductClick: (Int) -> Unit
+    onProductClick: (Int) -> Unit,
+    mainColor: Color,
+    onColorSelected: (Color) -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFFFEB3B))
     ) {
-        TopBarFull(onSearchBarClick = onSearchBarClick)
+        TopBarFull(
+            onSearchBarClick = onSearchBarClick,
+            mainColor = mainColor,
+            onColorSelected = onColorSelected
+        )
         FilterChipsFull()
         Box(modifier = Modifier.fillMaxSize()) {
             when (productsState) {
@@ -69,20 +75,18 @@ fun MainScreen(
                     CircularProgressIndicator(
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .size(100.dp)
+                            .size(100.dp),
+                        color = mainColor
                     )
                 }
-
                 is UIState.Error -> {
                     ErrorStateComponent(productsState.message)
                 }
-
                 is UIState.Empty -> {
                     EmptyStateComponent()
                 }
-
                 is UIState.Success -> {
-                    ProductListFull(productsState.data, onProductClick)
+                    ProductListFull(productsState.data, onProductClick, mainColor)
                 }
             }
         }
@@ -135,21 +139,21 @@ fun ChipWithIcon(chip: ChipDto) {
 }
 
 @Composable
-fun ProductListFull(products: List<ProductDto>, onProductClick: (Int) -> Unit) {
+fun ProductListFull(products: List<ProductDto>, onProductClick: (Int) -> Unit, mainColor: Color) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(White)
     ) {
         items(products) { product ->
-            ProductItemFull(product, onProductClick)
+            ProductItemFull(product, onProductClick, mainColor)
             HorizontalDivider(thickness = 1.dp, color = Color(0xFFE0E0E0))
         }
     }
 }
 
 @Composable
-fun ProductItemFull(product: ProductDto, onProductClick: (Int) -> Unit) {
+fun ProductItemFull(product: ProductDto, onProductClick: (Int) -> Unit, mainColor: Color) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -165,7 +169,7 @@ fun ProductItemFull(product: ProductDto, onProductClick: (Int) -> Unit) {
             contentAlignment = Alignment.TopEnd
         ) {
             AsyncImage(
-                model = product.image[0],
+                model = product.image.firstOrNull(),
                 contentDescription = stringResource(R.string.product_image_content_description, product.title),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -187,7 +191,6 @@ fun ProductItemFull(product: ProductDto, onProductClick: (Int) -> Unit) {
         }
         Spacer(Modifier.width(12.dp))
         Column(Modifier.weight(1f)) {
-
             Surface(
                 color = Color.Black,
                 shape = RoundedCornerShape(4.dp)
@@ -209,12 +212,12 @@ fun ProductItemFull(product: ProductDto, onProductClick: (Int) -> Unit) {
                 Text(stringResource(R.string.by_store,product.store), fontSize = 12.sp, color = Color.Gray)
                 Icon(
                     Icons.Rounded.CheckCircle,
-                    contentDescription = null,
-                    tint = Color(0xFF465ABD),
+                    contentDescription = stringResource(R.string.verified_icon_content_description),
+                    tint = mainColor,
                     modifier = Modifier.size(14.dp)
                 )
                 Text(stringResource(R.string.grades), fontSize = 12.sp, color = Color.Gray)
-                Text(stringResource(R.string.stars), fontSize = 10.sp, color = Color(0xFF465ABD))
+                Text(stringResource(R.string.stars), fontSize = 10.sp, color = mainColor)
                 Text(stringResource(R.string.therty_eight), fontSize = 12.sp, color = Color.Gray)
             }
             Spacer(Modifier.height(2.dp))
@@ -228,21 +231,11 @@ fun ProductItemFull(product: ProductDto, onProductClick: (Int) -> Unit) {
                 Spacer(Modifier.width(8.dp))
                 Text(product.price, fontWeight = FontWeight.Bold, fontSize = 22.sp)
                 Spacer(Modifier.width(8.dp))
-                Text(
-                    product.discount,
-                    color = Color(0xFF00A650),
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                Text(product.discount, color = Color(0xFF00A650), fontSize = 15.sp, fontWeight = FontWeight.Bold)
             }
             Text(product.installments, color = Color.Gray, fontSize = 12.sp)
             if (product.shipping.contains("gratis", true)) {
-                Text(
-                    product.shipping,
-                    color = Color(0xFF00A650),
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                Text(product.shipping, color = Color(0xFF00A650), fontSize = 13.sp, fontWeight = FontWeight.Bold)
             } else {
                 Text(product.shipping, color = Color.Gray, fontSize = 13.sp)
             }

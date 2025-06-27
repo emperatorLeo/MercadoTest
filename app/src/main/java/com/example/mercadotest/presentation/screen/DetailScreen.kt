@@ -46,6 +46,7 @@ import com.example.mercadotest.presentation.components.TopBarFull
 @Composable
 fun DetailScreen(
     product: ProductDto,
+    mainColor: Color,
     onSearchBarClick: () -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
@@ -57,7 +58,8 @@ fun DetailScreen(
             .background(White)
             .verticalScroll(rememberScrollState())
     ) {
-        TopBarFull(true, onSearchBarClick = onSearchBarClick) { onBackClick.invoke() }
+        TopBarFull(true, onSearchBarClick = onSearchBarClick, onBackClick = onBackClick)
+
         Column(Modifier.padding(16.dp)) {
             Text(stringResource(R.string.new_and_sold), color = Color.Gray, fontSize = 13.sp)
             Spacer(Modifier.height(2.dp))
@@ -86,7 +88,6 @@ fun DetailScreen(
             }
             Spacer(Modifier.height(12.dp))
 
-            // Pager de imágenes
             if (product.image.isNotEmpty()) {
                 Box(
                     modifier = Modifier
@@ -123,7 +124,7 @@ fun DetailScreen(
                                     .padding(2.dp)
                                     .size(if (selected) 10.dp else 8.dp)
                                     .clip(CircleShape)
-                                    .background(if (selected) Color(0xFF3483FA) else Color.LightGray)
+                                    .background(if (selected) mainColor else Color.LightGray)
                             )
                         }
                     }
@@ -157,7 +158,7 @@ fun DetailScreen(
                         .weight(1f)
                         .semantics { contentDescription = "Botón comprar ahora" }
                         .semantics { role = Role.Button },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3483FA)),
+                    colors = ButtonDefaults.buttonColors(containerColor = mainColor)
                 ) {
                     Text(
                         stringResource(R.string.buy_now),
@@ -175,7 +176,7 @@ fun DetailScreen(
                 ) {
                     Text(
                         stringResource(R.string.add_to_cart),
-                        color = Color(0xFF3483FA),
+                        color = mainColor,
                         fontWeight = FontWeight.Bold
                     )
                 }

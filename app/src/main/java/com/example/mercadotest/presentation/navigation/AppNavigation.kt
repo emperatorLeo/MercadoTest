@@ -3,6 +3,7 @@ package com.example.mercadotest.presentation.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -22,13 +23,13 @@ import com.example.mercadotest.presentation.screen.DetailScreen
 import com.example.mercadotest.presentation.screen.MainScreen
 import com.example.mercadotest.presentation.screen.SearchScreen
 import com.example.mercadotest.presentation.viewmodel.MainViewModel
-import kotlin.collections.listOf
 
 @Composable
 fun AppNavigation(
     navController: NavHostController = rememberNavController(),
-    mainViewModel: MainViewModel = hiltViewModel()
+    mainViewModel: MainViewModel = hiltViewModel(),
 ) {
+    val mainColor by mainViewModel.mainColor.collectAsState()
     NavHost(navController = navController, startDestination = MAIN_SCREEN) {
         composable(MAIN_SCREEN, arguments = listOf(navArgument(QUERY_SEARCH) {
             type = StringType
@@ -40,17 +41,22 @@ fun AppNavigation(
 
             val products = mainViewModel.productsState.collectAsState()
 
-            MainScreen(productsState = products.value, onSearchBarClick = {
-                navController.navigate(SEARCH_SCREEN)
-            }, onProductClick = { productId ->
-
-                navController.navigate(
-                    DETAIL_SCREEN.replace(
-                        "{${PRODUCT_ID}}",
-                        productId.toString()
+            MainScreen(
+                productsState = products.value,
+                onSearchBarClick = {
+                    navController.navigate(SEARCH_SCREEN)
+                },
+                onProductClick = { productId ->
+                    navController.navigate(
+                        DETAIL_SCREEN.replace(
+                            "{${PRODUCT_ID}}",
+                            productId.toString()
+                        )
                     )
-                )
-            })
+                },
+                mainColor = mainColor,
+                onColorSelected = { mainViewModel.setMainColor(it) }
+            )
         }
         composable(SEARCH_SCREEN) {
             SearchScreen(
@@ -78,6 +84,7 @@ fun AppNavigation(
             if (product != null) {
                 DetailScreen(
                     product = product,
+                    mainColor = mainColor,
                     { navController.navigate(SEARCH_SCREEN) }
                 ) {
                     navController.popBackStack()
