@@ -13,6 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(private val searchUseCase: SearchUseCase) : ViewModel() {
+
     private val _productsState = MutableStateFlow<UIState<List<ProductDto>>>(UIState.Empty)
     val productsState: StateFlow<UIState<List<ProductDto>>> = _productsState
 

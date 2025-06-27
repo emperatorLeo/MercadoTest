@@ -20,12 +20,12 @@ class ApiDataSourceImp(private val service: MeliMockService) : ApiDataSource {
                 queryCounter++
             } else {
                 queryCounter = 0
-                val mockedResponse = getMockedErrorResponse()
-                emit(mockedResponse)
+
+                emit(getMockedErrorResponse())
             }
         }
 
-    fun getMockedErrorResponse(): Response<List<ProductItemResponse>> {
+    private fun getMockedErrorResponse(): Response<List<ProductItemResponse>> {
         val httpStatusCode = 500
         val httpMessage = "Server Error"
 

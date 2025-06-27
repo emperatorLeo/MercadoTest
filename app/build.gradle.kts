@@ -63,10 +63,13 @@ dependencies {
 
     // Lottie
     implementation(libs.dotlottie.android)
-    
+
     // Retrofit
     implementation(libs.retrofit)
 
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.androidx.arch.core.testing)
+    testImplementation(libs.mockk)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
