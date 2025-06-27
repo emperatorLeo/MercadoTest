@@ -5,7 +5,7 @@ import com.example.mercadotest.domain.model.ProductDto
 data class ProductItemResponse(
     val id: Int,
     val productName: String,
-    val imageUrl: String,
+    val imageUrl: List<String>,
     val storeName: String,
     val price: String,
     val discount: String,

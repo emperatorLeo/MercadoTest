@@ -165,7 +165,7 @@ fun ProductItemFull(product: ProductDto, onProductClick: (Int) -> Unit) {
             contentAlignment = Alignment.TopEnd
         ) {
             AsyncImage(
-                model = product.image,
+                model = product.image[0],
                 contentDescription = stringResource(R.string.product_image_content_description, product.title),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier

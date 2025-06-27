@@ -11,7 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -28,6 +31,10 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,10 +42,6 @@ import coil3.compose.AsyncImage
 import com.example.mercadotest.R
 import com.example.mercadotest.domain.model.ProductDto
 import com.example.mercadotest.presentation.components.TopBarFull
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.role
 
 @Composable
 fun DetailScreen(
@@ -46,14 +49,15 @@ fun DetailScreen(
     onSearchBarClick: () -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
+    val pagerState = rememberPagerState(0, pageCount = {product.image.size})
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(White)
             .verticalScroll(rememberScrollState())
     ) {
-        TopBarFull(true, onSearchBarClick = onSearchBarClick) { onBackClick }
-
+        TopBarFull(true, onSearchBarClick = onSearchBarClick) { onBackClick.invoke() }
         Column(Modifier.padding(16.dp)) {
             Text(stringResource(R.string.new_and_sold), color = Color.Gray, fontSize = 13.sp)
             Spacer(Modifier.height(2.dp))
@@ -82,25 +86,48 @@ fun DetailScreen(
             }
             Spacer(Modifier.height(12.dp))
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(220.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(Color(0xFFE0E0E0)),
-                contentAlignment = Alignment.Center
-            ) {
-                AsyncImage(
-                    model = product.image,
-                    contentDescription = stringResource(
-                        R.string.product_image_content_description,
-                        product.title
-                    ),
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier.fillMaxSize(),
-                    placeholder = painterResource(id = R.drawable.placeholder),
-                    error = painterResource(id = R.drawable.error_image)
-                )
+            // Pager de imágenes
+            if (product.image.isNotEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(220.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(Color(0xFFE0E0E0)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    HorizontalPager(
+                        state = pagerState,
+                        modifier = Modifier.fillMaxSize()
+                    ) { page ->
+                        AsyncImage(
+                            model = product.image[page],
+                            contentDescription = stringResource(R.string.product_image_content_description, product.title),
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier.fillMaxSize(),
+                            placeholder = painterResource(id = R.drawable.placeholder),
+                            error = painterResource(id = R.drawable.error_image)
+                        )
+                    }
+
+                    Row(
+                        Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(8.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        repeat(product.image.size) { index ->
+                            val selected = pagerState.currentPage == index
+                            Box(
+                                modifier = Modifier
+                                    .padding(2.dp)
+                                    .size(if (selected) 10.dp else 8.dp)
+                                    .clip(CircleShape)
+                                    .background(if (selected) Color(0xFF3483FA) else Color.LightGray)
+                            )
+                        }
+                    }
+                }
             }
             Spacer(Modifier.height(12.dp))
 
