@@ -37,12 +37,15 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.mercadotest.R
+import com.example.mercadotest.common.RESULT_LIST_TEST_TAG
 import com.example.mercadotest.domain.model.ChipDto
 import com.example.mercadotest.domain.model.ProductDto
 import com.example.mercadotest.presentation.components.EmptyStateComponent
@@ -144,6 +147,7 @@ fun ProductListFull(products: List<ProductDto>, onProductClick: (Int) -> Unit, m
         modifier = Modifier
             .fillMaxSize()
             .background(White)
+            .semantics{ testTag = RESULT_LIST_TEST_TAG }
     ) {
         items(products) { product ->
             ProductItemFull(product, onProductClick, mainColor)

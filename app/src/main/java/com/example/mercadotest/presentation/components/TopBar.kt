@@ -36,10 +36,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mercadotest.R
+import com.example.mercadotest.common.SEARCH_BAR_TEST_TAG
 
 @Composable
 fun TopBarFull(
@@ -82,7 +84,8 @@ fun TopBarFull(
                 modifier = Modifier
                     .height(45.dp)
                     .clip(RoundedCornerShape(24.dp))
-                    .clickable { onSearchBarClick() },
+                    .clickable { onSearchBarClick() }
+                    .testTag(SEARCH_BAR_TEST_TAG),
                 colors = TextFieldDefaults.colors(
                     disabledContainerColor = White,
                     unfocusedContainerColor = White,
